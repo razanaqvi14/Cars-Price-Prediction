@@ -1,3 +1,0 @@
-1) Create a new environment (carprediction). 3.11
-
-2) working directory (launched jupyter notebook)
