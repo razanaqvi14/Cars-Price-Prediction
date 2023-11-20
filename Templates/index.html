@@ -12,68 +12,97 @@
     />
   </head>
   <body>
+    <h2 class="text-center my-4">Car's Price Predictor</h2>
     <div class="container">
-      <h2 class="text-center">Car Price Prediction</h2>
-      <form>
+      <form action="/predict" method="post">
         <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">Year</label>
+          <label for="year" class="form-label">Which Year's Model</label>
           <input
             type="number"
             class="form-control"
-            id="exampleInputEmail1"
+            id="year"
             aria-describedby="emailHelp"
             placeholder="Year"
+            name="year"
+            required
           />
         </div>
         <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label"
-            >Showroom Price (In 100's Thousand)</label
+          <label for="present_price" class="form-label"
+            >Present Price Of That 0 Meter Car (In lacs)</label
           >
           <input
             type="number"
             class="form-control"
-            id="exampleInputEmail1"
+            id="present_price"
             aria-describedby="emailHelp"
-            placeholder="Showroom Price"
+            placeholder="Present Price"
+            name="present_price"
+            required
           />
         </div>
         <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label"
-            >Kilometers Driven</label
-          >
+          <label for="kms_driven" class="form-label">Kilometers Driven</label>
           <input
             type="number"
             class="form-control"
-            id="exampleInputEmail1"
+            id="kms_driven"
             aria-describedby="emailHelp"
             placeholder="Kilometers Driven"
+            name="kms_driven"
+            required
           />
         </div>
         <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label"
-            >Number Of Cars Owned Previously</label
+          <label for="owner" class="form-label"
+            >How Many Owners Previously Had The Car (0, 1, Or 3)</label
           >
           <input
             type="number"
             class="form-control"
-            id="exampleInputEmail1"
+            id="owner"
             aria-describedby="emailHelp"
             placeholder="No. Of Cars"
+            name="owner"
+            required
           />
         </div>
-        <select class="form-select my-4" aria-label="Default select example">
+        <select
+          class="form-select my-4"
+          aria-label="Default select example"
+          name="fuel_type"
+          required
+        >
           <option selected>Fuel Type</option>
-          <option value="1">Petrol</option>
-          <option value="2">CNG</option>
+          <option value="Petrol">Petrol</option>
+          <option value="Diesel">Diesel</option>
+          <option value="CNG">CNG</option>
         </select>
-        <select class="form-select my-4" aria-label="Default select example">
+        <select
+          class="form-select my-4"
+          aria-label="Default select example"
+          name="seller_type"
+          required
+        >
           <option selected>Seller Type</option>
-          <option value="1">Dealer</option>
-          <option value="2">Individual</option>
+          <option value="Individual">Individual</option>
+          <option value="Dealer">Dealer</option>
         </select>
-        <button type="submit" class="btn btn-primary">Predict</button>
+        <select
+          class="form-select my-4"
+          aria-label="Default select example"
+          name="transmission_type"
+          required
+        >
+          <option selected>Transmission Type</option>
+          <option value="Automatic">Automatic</option>
+          <option value="Manual">Manual</option>
+        </select>
+        <input type="submit" class="btn btn-primary" value="Predict Price" />
       </form>
-      <div id="result"></div>
+      {% if prediction_text %}
+      <h2 class="my-4">{{ prediction_text }}</h2>
+      {% endif %}
     </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
