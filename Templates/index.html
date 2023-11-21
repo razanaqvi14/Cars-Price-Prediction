@@ -1,33 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Car Price Prediction</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cars Price Predictor</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
       crossorigin="anonymous"
     />
+    <style>
+      .result {
+        height: 70px;
+      }
+    </style>
   </head>
   <body>
-    <h2 class="text-center my-4">Car's Price Predictor</h2>
-    <div class="container">
+    <div class="container mt-4">
+      <h1 class="my-4 text-center">Want To Sell Your Car?</h1>
+      <h2 class="text-center my-4">Here Is Your Car's Price Predictor</h2>
       <form action="/predict" method="post">
-        <div class="mb-3">
-          <label for="year" class="form-label">Which Year's Model</label>
-          <input
-            type="number"
-            class="form-control"
-            id="year"
-            aria-describedby="emailHelp"
-            placeholder="Year"
-            name="year"
-            required
-          />
-        </div>
-        <div class="mb-3">
+        <select
+          class="form-select"
+          aria-label="Default select example"
+          id="select"
+          name="year"
+        >
+          <option selected>Select Year</option>
+          {% for year in years %}
+          <option value="{{ year }}">{{ year }}</option>
+          {% endfor %}
+        </select>
+
+        <div class="my-3">
           <label for="present_price" class="form-label"
             >Present Price Of That 0 Meter Car (In lacs)</label
           >
@@ -36,73 +42,163 @@
             class="form-control"
             id="present_price"
             aria-describedby="emailHelp"
-            placeholder="Present Price"
             name="present_price"
-            required
           />
         </div>
-        <div class="mb-3">
-          <label for="kms_driven" class="form-label">Kilometers Driven</label>
-          <input
-            type="number"
-            class="form-control"
-            id="kms_driven"
-            aria-describedby="emailHelp"
-            placeholder="Kilometers Driven"
-            name="kms_driven"
-            required
-          />
-        </div>
-        <div class="mb-3">
-          <label for="owner" class="form-label"
-            >How Many Owners Previously Had The Car (0, 1, Or 3)</label
+
+        <div class="my-3">
+          <label for="kilometers_driven" class="form-label"
+            >Kilometers Driven</label
           >
           <input
             type="number"
             class="form-control"
-            id="owner"
+            id="kilometers_driven"
             aria-describedby="emailHelp"
-            placeholder="No. Of Cars"
-            name="owner"
-            required
+            name="kilometers_driven"
           />
         </div>
-        <select
-          class="form-select my-4"
-          aria-label="Default select example"
-          name="fuel_type"
-          required
-        >
-          <option selected>Fuel Type</option>
-          <option value="Petrol">Petrol</option>
-          <option value="Diesel">Diesel</option>
-          <option value="CNG">CNG</option>
-        </select>
-        <select
-          class="form-select my-4"
-          aria-label="Default select example"
-          name="seller_type"
-          required
-        >
-          <option selected>Seller Type</option>
-          <option value="Individual">Individual</option>
-          <option value="Dealer">Dealer</option>
-        </select>
-        <select
-          class="form-select my-4"
-          aria-label="Default select example"
-          name="transmission_type"
-          required
-        >
-          <option selected>Transmission Type</option>
-          <option value="Automatic">Automatic</option>
-          <option value="Manual">Manual</option>
-        </select>
-        <input type="submit" class="btn btn-primary" value="Predict Price" />
+
+        <div>
+          <label class="form-check-label"
+            >How Many Owners Previously Had The Car</label
+          >
+          <div class="d-flex my-3">
+            <div class="form-check mx-3">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="owner"
+                value="0"
+                id="0"
+              />
+              <label class="form-check-label" for="0"> 0 </label>
+            </div>
+            <div class="form-check mx-3">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="owner"
+                value="1"
+                id="1"
+              />
+              <label class="form-check-label" for="1"> 1 </label>
+            </div>
+            <div class="form-check mx-3">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="owner"
+                value="3"
+                id="3"
+              />
+              <label class="form-check-label" for="3"> 3 </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="my-3">
+          <label class="form-check-label">Fuel Type</label>
+          <div class="d-flex my-3">
+            <div class="form-check mx-3">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="fuel_type"
+                id="petrol"
+                value="petrol"
+              />
+              <label class="form-check-label" for="petrol"> Petrol </label>
+            </div>
+            <div class="form-check mx-3">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="fuel_type"
+                id="diesel"
+                value="diesel"
+              />
+              <label class="form-check-label" for="diesel"> Diesel </label>
+            </div>
+            <div class="form-check mx-3">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="fuel_type"
+                id="cng"
+                value="cng"
+              />
+              <label class="form-check-label" for="cng"> CNG </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="my-3">
+          <label class="form-check-label">Seller Type</label>
+          <div class="d-flex my-3">
+            <div class="form-check mx-3">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="seller_type"
+                id="individual"
+                value="individual"
+              />
+              <label class="form-check-label" for="individual">
+                Individual
+              </label>
+            </div>
+            <div class="form-check mx-3">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="seller_type"
+                id="dealer"
+                value="dealer"
+              />
+              <label class="form-check-label" for="dealer"> Dealer </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="my-3">
+          <label class="form-check-label">Transmission Type</label>
+          <div class="d-flex my-3">
+            <div class="form-check mx-3">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="transmission_type"
+                id="automatic"
+                value="automatic"
+              />
+              <label class="form-check-label" for="automatic">
+                Automatic
+              </label>
+            </div>
+            <div class="form-check mx-3">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="transmission_type"
+                id="manual"
+                value="manual"
+              />
+              <label class="form-check-label" for="manual"> Manual </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="result d-flex align-items-center">
+          <button class="btn btn-primary" type="submit">
+            Predict The Selling Price
+          </button>
+
+          {% if prediction_text %}
+          <h2 class="ms-4">{{ prediction_text }}</h2>
+          {% endif %}
+        </div>
       </form>
-      {% if prediction_text %}
-      <h2 class="my-4">{{ prediction_text }}</h2>
-      {% endif %}
     </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
